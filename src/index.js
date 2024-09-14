@@ -6,6 +6,7 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 const PORT = process.env.PORT || 3000;
 const random = require("random-name");
+const BLOCK_IP = false;
 
 const GRAVITY = 0.0228;
 const TICK_RATE = 30;
@@ -76,7 +77,7 @@ io.on("connect", (socket) => {
     socket.handshake.headers["x-real-ip"] ??
     socket.handshake.address;
 
-  if (ipMap[ipAddress]) {
+  if (BLOCK_IP && ipMap[ipAddress]) {
     socket.disconnect();
     return;
   }
